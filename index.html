@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Finance Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-layout">
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<header id="topbar">
+    <div class="topbar-brand">
+        <span class="brand-logo" aria-hidden="true">📊</span>
+        <h1>Student Finance Tracker</h1>
+    </div>
+</header>
+
+<nav id="app-navigation" aria-label="Main system navigation">
+    <ul class="nav-menu">
+        <li>
+            <a href="#dashboard" class="nav-link">
+                <span class="nav-icon" aria-hidden="true">🏠</span>
+                <span class="nav-text">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="#records" class="nav-link">
+                <span class="nav-icon" aria-hidden="true">📜</span>
+                <span class="nav-text">Records</span>
+            </a>
+        </li>
+        <li>
+            <a href="#form" class="nav-link">
+                <span class="nav-icon" aria-hidden="true">➕</span>
+                <span class="nav-text">Add Item</span>
+            </a>
+        </li>
+        <li>
+            <a href="#settings" class="nav-link">
+                <span class="nav-icon" aria-hidden="true">⚙️</span>
+                <span class="nav-text">Settings</span>
+            </a>
+        </li>
+        <li>
+            <a href="#about" class="nav-link">
+                <span class="nav-icon" aria-hidden="true">ℹ️</span>
+                <span class="nav-text">About</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div id="main-wrapper">
+
+    <main id="main-content">
+
+        <div id="status-message"
+             role="status"
+             aria-live="polite"
+             aria-atomic="true"></div>
+
+        <section id="dashboard" aria-labelledby="dashboard-heading">
+            <h2 id="dashboard-heading">Dashboard</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total transactions</h3>
+                    <p id="total-transactions" class="stat-value">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total spent</h3>
+                    <p id="total-spent" class="stat-value">$0.00</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Top category</h3>
+                    <p id="top-category" class="stat-value">—</p>
+                </div>
+            </div>
+
+            <div class="budget-status"
+                 id="budget-message"
+                 aria-live="polite"
+                 aria-atomic="true">
+                <p>Budget status: <span id="budget-text">Within budget</span></p>
+            </div>
+
+            <div id="trend-chart"
+                 role="img"
+                 aria-label="Spending trend for the last 7 days"></div>
+        </section>
+
+        <section id="records" aria-labelledby="records-heading">
+            <h2 id="records-heading">Transaction records</h2>
+
+            <div class="records-controls">
+                <div class="search-box">
+                    <label for="search-input">Search:</label>
+                    <input type="text"
+                           id="search-input"
+                           placeholder="Enter a search term or regex..."
+                           aria-label="Search transactions by keyword or pattern">
+
+                    <label for="search-case" class="checkbox-label">
+                        <input type="checkbox" id="search-case" checked>
+                        Case-insensitive
+                    </label>
+                </div>
+
+                <div class="sort-controls">
+                    <span id="sort-label">Sort by:</span>
+                    <button class="sort-btn" data-sort="date" aria-describedby="sort-label">Date</button>
+                    <button class="sort-btn" data-sort="description" aria-describedby="sort-label">Description</button>
+                    <button class="sort-btn" data-sort="amount" aria-describedby="sort-label">Amount</button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="transactions-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="form" aria-labelledby="form-heading">
+            <h2 id="form-heading">Add New Transaction</h2>
+
+            <form id="transaction-form" novalidate>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <input type="text"
+                           id="description"
+                           name="description"
+                           required
+                           minlength="3"
+                           maxlength="50"
+                           aria-describedby="description-error"
+                           autocomplete="off">
+                    <div class="error-message" id="description-error" role="alert" aria-live="polite"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Amount ($):</label>
+                    <input type="number"
+                           id="amount"
+                           name="amount"
+                           required
+                           min="0.01"
+                           step="0.01"
+                           aria-describedby="amount-error">
+                    <div class="error-message" id="amount-error" role="alert" aria-live="polite"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required aria-describedby="category-error">
+                        <option value="">Select a category</option>
+                        <option value="Food">Food</option>
+                        <option value="Books">Books</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Fees">Fees</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="error-message" id="category-error" role="alert" aria-live="polite"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date"
+                           id="date"
+                           name="date"
+                           required
+                           aria-describedby="date-error">
+                    <div class="error-message" id="date-error" role="alert" aria-live="polite"></div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                    <button type="reset" class="btn btn-secondary">Clear Form</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="settings" aria-labelledby="settings-heading">
+            <h2 id="settings-heading">Settings</h2>
+
+            <div class="settings-group">
+                <h3>Budget Cap</h3>
+                <div class="settings-inline">
+                    <label for="budget-cap">Monthly Budget Cap ($):</label>
+                    <input type="number" id="budget-cap" min="0" step="0.01" value="500">
+                    <button type="button" id="save-cap" class="btn btn-primary">Save Cap</button>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <h3>Currency Rates</h3>
+                <p class="settings-help">Set manual exchange rates. Amounts will be shown in all three currencies.</p>
+
+                <div class="settings-inline">
+                    <label for="base-currency">Base currency:</label>
+                    <input type="text" id="base-currency" maxlength="3" value="USD">
+                </div>
+
+                <div class="currency-row">
+                    <label for="currency2-code">Currency 2:</label>
+                    <input type="text" id="currency2-code" maxlength="3" value="EUR">
+                    <label for="currency2-rate">Rate:</label>
+                    <input type="number" id="currency2-rate" min="0.0001" step="0.0001" value="0.92">
+                </div>
+
+                <div class="currency-row">
+                    <label for="currency3-code">Currency 3:</label>
+                    <input type="text" id="currency3-code" maxlength="3" value="KES">
+                    <label for="currency3-rate">Rate:</label>
+                    <input type="number" id="currency3-rate" min="0.0001" step="0.0001" value="130">
+                </div>
+
+                <button type="button" id="save-rates" class="btn btn-primary">Save Rates</button>
+            </div>
+
+            <div class="settings-group">
+                <h3>Import / Export Data</h3>
+                <div class="file-actions">
+                    <button type="button" id="export-data" class="btn btn-secondary">Export Data (JSON)</button>
+                    <div class="import-group">
+                        <label for="import-file" class="file-input-label">Import JSON:</label>
+                        <input type="file" id="import-file" accept=".json" aria-describedby="import-feedback">
+                    </div>
+                </div>
+                <div id="import-feedback" role="status" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <section id="about" aria-labelledby="about-heading">
+            <h2 id="about-heading">About this app</h2>
+            <p>A smart budgeting assistant designed to monitor student expenses and spending targets. Take advantage of automated local persistence, instant transaction search filtering, and seamless JSON import/export workflow.</p>
+
+            <div class="contact-links">
+                <a href="https://github.com/nabdurahim-art/Student-Finance-Tracker.git" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="mailto:n.abdurahim@alustudent.com">n.abdurahim@alustudent.com</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Student Finance Tracker &mdash; Built with Accessible FinTech Principles</p>
+    </footer>
+
+</div>
+
+<script src="scripts/state.js" type="module"></script>
+<script src="scripts/storage.js" type="module"></script>
+<script src="scripts/validators.js" type="module"></script>
+<script src="scripts/search.js" type="module"></script>
+<script src="scripts/ui.js" type="module"></script>
+<script src="scripts/app.js" type="module"></script>
+
+</body>
+</html>

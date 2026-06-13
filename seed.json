@@ -1,0 +1,146 @@
+{
+  "records": [
+    {
+      "id": "txn_seed001",
+      "description": "Weekly grocery shopping at market",
+      "amount": 74.50,
+      "category": "Food",
+      "date": "2026-06-05",
+      "createdAt": "2026-06-05T09:14:22Z",
+      "updatedAt": "2026-06-05T09:14:22Z"
+    },
+    {
+      "id": "txn_seed002",
+      "description": "Introduction to Python Programming textbook",
+      "amount": 68.99,
+      "category": "Books",
+      "date": "2026-06-06",
+      "createdAt": "2026-06-06T11:30:00Z",
+      "updatedAt": "2026-06-06T11:30:00Z"
+    },
+    {
+      "id": "txn_seed003",
+      "description": "Monthly campus bus pass fee",
+      "amount": 45.00,
+      "category": "Transport",
+      "date": "2026-06-06",
+      "createdAt": "2026-06-06T08:05:10Z",
+      "updatedAt": "2026-06-06T08:05:10Z"
+    },
+    {
+      "id": "txn_seed004",
+      "description": "Cinema ticket and weekend snacks",
+      "amount": 15.50,
+      "category": "Entertainment",
+      "date": "2026-06-07",
+      "createdAt": "2026-06-07T19:45:00Z",
+      "updatedAt": "2026-06-07T19:45:00Z"
+    },
+    {
+      "id": "txn_seed005",
+      "description": "University library late return fee",
+      "amount": 12.20,
+      "category": "Fees",
+      "date": "2026-06-08",
+      "createdAt": "2026-06-08T14:00:00Z",
+      "updatedAt": "2026-06-08T14:00:00Z"
+    },
+    {
+      "id": "txn_seed006",
+      "description": "Lunch at campus cafeteria center",
+      "amount": 18.75,
+      "category": "Food",
+      "date": "2026-06-08",
+      "createdAt": "2026-06-08T12:30:00Z",
+      "updatedAt": "2026-06-08T12:30:00Z"
+    },
+    {
+      "id": "txn_seed007",
+      "description": "Notebook and stationery drawing pack",
+      "amount": 9.40,
+      "category": "Other",
+      "date": "2026-06-09",
+      "createdAt": "2026-06-09T10:10:00Z",
+      "updatedAt": "2026-06-09T10:10:00Z"
+    },
+    {
+      "id": "txn_seed008",
+      "description": "Taxi ride back from exam venue",
+      "amount": 24.30,
+      "category": "Transport",
+      "date": "2026-06-09",
+      "createdAt": "2026-06-09T07:50:00Z",
+      "updatedAt": "2026-06-09T07:50:00Z"
+    },
+    {
+      "id": "txn_seed009",
+      "description": "Premium student streaming subscription plan",
+      "amount": 9.99,
+      "category": "Entertainment",
+      "date": "2026-06-10",
+      "createdAt": "2026-06-10T00:00:00Z",
+      "updatedAt": "2026-06-10T00:00:00Z"
+    },
+    {
+      "id": "txn_seed010",
+      "description": "Printing final dissertation assignment drafts",
+      "amount": 17.60,
+      "category": "Fees",
+      "date": "2026-06-10",
+      "createdAt": "2026-06-10T15:20:00Z",
+      "updatedAt": "2026-06-10T15:20:00Z"
+    },
+    {
+      "id": "txn_seed011",
+      "description": "Data Structures study reference notes booklet",
+      "amount": 32.00,
+      "category": "Books",
+      "date": "2026-06-10",
+      "createdAt": "2026-06-10T09:00:00Z",
+      "updatedAt": "2026-06-10T09:00:00Z"
+    },
+    {
+      "id": "txn_seed012",
+      "description": "Iced latte coffee and revision pastries",
+      "amount": 14.15,
+      "category": "Food",
+      "date": "2026-06-11",
+      "createdAt": "2026-06-11T10:45:00Z",
+      "updatedAt": "2026-06-11T10:45:00Z"
+    },
+    {
+      "id": "txn_seed013",
+      "description": "Train ticket home for reading break",
+      "amount": 61.50,
+      "category": "Transport",
+      "date": "2026-06-11",
+      "createdAt": "2026-06-11T16:30:00Z",
+      "updatedAt": "2026-06-11T16:30:00Z"
+    },
+    {
+      "id": "txn_seed014",
+      "description": "Student association group dinner contribution",
+      "amount": 42.00,
+      "category": "Food",
+      "date": "2026-06-11",
+      "createdAt": "2026-06-11T20:00:00Z",
+      "updatedAt": "2026-06-11T20:00:00Z"
+    },
+    {
+      "id": "txn_seed015",
+      "description": "Self service laundry tokens and dryer",
+      "amount": 15.50,
+      "category": "Other",
+      "date": "2026-06-11",
+      "createdAt": "2026-06-11T11:00:00Z",
+      "updatedAt": "2026-06-11T11:00:00Z"
+    }
+  ],
+  "settings": {
+    "budgetCap": 500,
+    "baseCurrency": "USD",
+    "currency2": { "code": "EUR", "rate": 0.92 },
+    "currency3": { "code": "KES", "rate": 130 }
+  },
+  "version": "1.1"
+}
