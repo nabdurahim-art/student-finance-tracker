@@ -1,185 +1,496 @@
-import { search } from './search.js';
+:root {
+    /* Trustworthy Neutrals Palette */
+    --color-primary:       #1e293b; /* Deep slate gray */
+    --color-primary-dark:  #0f172a; /* Midnight dark navy */
+    --color-primary-light: #0284c7; /* Sky blue interactive accent */
 
-function el(id) {
-    return document.getElementById(id);
+    --color-bg:            #f8fafc; /* Soft cool-white background */
+    --color-surface:       #ffffff; /* Pure white cards */
+    --color-surface-alt:   #f1f5f9; /* Slate tint table headers & stripes */
+
+    --color-text:          #0f172a; /* True high-contrast readability text */
+    --color-text-muted:    #475569; /* Balanced secondary description text */
+
+    --color-border:        #cbd5e1; /* Clear grid line bounds */
+    --color-danger:        #b91c1c; /* Crimson alert */
+    --color-success-bg:    #e0f2fe; /* Light blue info box */
+
+    /* Typography & Spacing System */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.05);
+
+    --sidebar-width:  240px;
+    --topbar-height:  60px;
+    --transition-fast: 0.15s ease;
+    --transition-main: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-function escapeHtml(text) {
-    return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+/* Global Normalization */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-function formatCurrency(amount, currencyCode = 'USD') {
-    return new Intl.NumberFormat('en-US', {
-        style:                 'currency',
-        currency:              currencyCode,
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    }).format(amount);
+html {
+    scroll-behavior: smooth;
 }
 
-function formatDate(dateString) {
-    const [year, month, day] = dateString.split('-').map(Number);
-    return new Date(year, month - 1, day).toLocaleDateString('en-US', {
-        year:  'numeric',
-        month: 'short',
-        day:   'numeric',
-    });
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: var(--color-bg);
+    color: var(--color-text);
 }
 
-function buildConversionTitle(amount, settings) {
-    const c2 = (amount * settings.currency2.rate).toFixed(2);
-    const c3 = (amount * settings.currency3.rate).toFixed(2);
-    return `${settings.currency2.code} ${c2} · ${settings.currency3.code} ${c3}`;
+/* Screen Reader Skip-Link */
+.skip-link {
+    position: fixed;
+    top: -100px;
+    left: 12px;
+    z-index: 9999;
+    background-color: var(--color-primary-dark);
+    color: white;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    transition: top var(--transition-fast);
 }
 
-function renderTrendChart(last7Records) {
-    const chart = el('trend-chart');
-    if (!chart) return;
-
-    const today = new Date();
-    const days = Array.from({ length: 7 }, (_, i) => {
-        const d = new Date(today);
-        d.setDate(today.getDate() - (6 - i));
-        return d;
-    });
-
-    const totals = days.map(day => {
-        const key = day.toISOString().slice(0, 10);
-        return last7Records
-            .filter(r => r.date === key)
-            .reduce((sum, r) => sum + r.amount, 0);
-    });
-
-    const max = Math.max(...totals, 1);
-    const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-    chart.innerHTML = days.map((day, i) => {
-        const heightPct = Math.round((totals[i] / max) * 100);
-        const label = labels[day.getDay()];
-        const title = `${label}: ${formatCurrency(totals[i])}`;
-        return `<div class="chart-bar"
-                     style="height:${heightPct}%"
-                     title="${escapeHtml(title)}"
-                     aria-label="${escapeHtml(title)}">
-                    <span class="chart-label">${label}</span>
-                </div>`;
-    }).join('');
+.skip-link:focus {
+    top: 12px;
+    outline: 3px solid var(--color-primary-light);
 }
 
-export const ui = {
+/* Global Application Grid Layout Wrapper */
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-    renderTable(records, searchTerm = '', caseInsensitive = false) {
-        const body = el('table-body');
-        if (!body) return;
+#topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--topbar-height);
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 0 var(--space-md);
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+}
 
-        if (records.length === 0) {
-            body.innerHTML = `<tr><td colspan="5" class="table-empty">No transactions found. Add one above.</td></tr>`;
-            return;
-        }
+.topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
 
-        body.innerHTML = records.map(record => {
-            const description = searchTerm
-                ? search.highlightText(record.description, searchTerm, caseInsensitive)
-                : escapeHtml(record.description);
+.topbar-brand h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+}
 
-            const category = searchTerm
-                ? search.highlightText(record.category, searchTerm, caseInsensitive)
-                : escapeHtml(record.category);
+/* Mobile Bottom Navigation Menu */
+#app-navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    z-index: 200;
+}
 
-            return `<tr>
-                <td>${escapeHtml(formatDate(record.date))}</td>
-                <td>${description}</td>
-                <td>${category}</td>
-                <td>${escapeHtml(formatCurrency(record.amount))}</td>
-                <td>
-                    <button class="btn-edit"
-                            data-action="edit"
-                            data-id="${escapeHtml(record.id)}">Edit</button>
-                    <button class="btn-danger"
-                            data-action="delete"
-                            data-id="${escapeHtml(record.id)}">Delete</button>
-                </td>
-            </tr>`;
-        }).join('');
-    },
+.nav-menu {
+    display: flex;
+    height: 100%;
+    list-style: none;
+}
 
-    updateDashboard({ totalSpent, topCategory, totalCount, budgetCap, settings, last7Records }) {
-        const totalTransactionsEl = el('total-transactions');
-        const totalSpentEl        = el('total-spent');
-        const topCategoryEl       = el('top-category');
-        const budgetText          = el('budget-text');
-        const budgetContainer     = el('budget-message');
+.nav-menu li {
+    flex: 1;
+}
 
-        if (totalTransactionsEl) totalTransactionsEl.textContent = totalCount;
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-decoration: none;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    transition: background var(--transition-fast), color var(--transition-fast);
+}
 
-        if (totalSpentEl) {
-            totalSpentEl.textContent = formatCurrency(totalSpent, settings?.baseCurrency ?? 'USD');
-            if (settings) {
-                totalSpentEl.title = buildConversionTitle(totalSpent, settings);
-            }
-        }
+.nav-link:hover, .nav-link:focus {
+    color: var(--color-primary-dark);
+    background-color: var(--color-surface-alt);
+    outline: none;
+}
 
-        if (topCategoryEl) topCategoryEl.textContent = topCategory ?? '—';
+.nav-icon {
+    font-size: 1.25rem;
+    margin-bottom: 2px;
+}
 
-        if (budgetText && budgetContainer) {
-            if (totalSpent > budgetCap) {
-                const over = totalSpent - budgetCap;
-                budgetText.textContent = `Over budget by ${formatCurrency(over, settings?.baseCurrency ?? 'USD')} (cap: ${formatCurrency(budgetCap, settings?.baseCurrency ?? 'USD')})`;
-                budgetContainer.setAttribute('aria-live', 'assertive');
-                budgetContainer.className = 'budget-status budget-over';
-                budgetContainer.style.background = ''; // Managed by CSS rule sets safely now
-                budgetContainer.style.color      = '';
-                budgetContainer.style.borderColor= '';
-            } else {
-                const remaining = budgetCap - totalSpent;
-                budgetText.textContent = `Within budget — ${formatCurrency(remaining, settings?.baseCurrency ?? 'USD')} remaining of ${formatCurrency(budgetCap, settings?.baseCurrency ?? 'USD')}`;
-                budgetContainer.setAttribute('aria-live', 'polite');
-                budgetContainer.className = 'budget-status budget-within';
-                budgetContainer.style.background  = '';
-                budgetContainer.style.color       = '';
-                budgetContainer.style.borderColor = '';
-            }
-        }
+/* Content Frame Containment */
+#main-wrapper {
+    margin-bottom: 60px; /* Space clear of mobile bottom bar navigation */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
 
-        renderTrendChart(last7Records ?? []);
-    },
+main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-md);
+}
 
-    showErrors(errors) {
-        this.clearErrors();
-        const fields = ['description', 'amount', 'category', 'date'];
-        fields.forEach(field => {
-            if (errors[field]) {
-                const errorEl = el(`${field}-error`);
-                const inputEl = el(field);
-                if (errorEl) errorEl.textContent = errors[field];
-                if (inputEl) inputEl.classList.add('invalid');
-            }
-        });
-    },
+section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-fast);
+}
 
-    clearErrors() {
-        const fields = ['description', 'amount', 'category', 'date'];
-        fields.forEach(field => {
-            const errorEl = el(`${field}-error`);
-            const inputEl = el(field);
-            if (errorEl) errorEl.textContent = '';
-            if (inputEl) inputEl.classList.remove('invalid');
-        });
-    },
+section:hover {
+    box-shadow: var(--shadow-md);
+}
 
-    resetForm() {
-        const form = el('transaction-form');
-        if (form) form.reset();
-        this.clearErrors();
-    },
+section h2 {
+    font-size: 1.2rem;
+    color: var(--color-primary-dark);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-xs);
+    border-bottom: 2px solid var(--color-surface-alt);
+}
 
-    setSubmitLabel(label) {
-        const btn = document.querySelector('#transaction-form button[type="submit"]');
-        if (btn) btn.textContent = label;
-    },
+/* Metric Dashboard Display Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
 
-};
+.stat-card {
+    background-color: var(--color-bg);
+    padding: var(--space-md);
+    border-radius: var(--radius-sm);
+    border-left: 4px solid var(--color-primary);
+}
+
+.stat-card h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: var(--space-xs);
+}
+
+/* Budget Cap Notifications */
+.budget-status {
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.budget-within {
+    background-color: var(--color-success-bg);
+    color: var(--color-primary-dark);
+}
+
+.budget-over {
+    background-color: #ffeeec;
+    color: var(--color-danger);
+    border: 1px solid #fca5a5;
+}
+
+/* Analytics Chart Components */
+#trend-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-sm);
+    height: 160px;
+    padding: var(--space-md);
+    background-color: var(--color-surface-alt);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-md);
+}
+
+/* Forms Engine Visual Rules */
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: var(--space-xs);
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    color: var(--color-text);
+    background-color: var(--color-surface);
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: 2px solid var(--color-primary-light);
+    border-color: transparent;
+}
+
+.error-message {
+    color: var(--color-danger);
+    font-size: 0.8rem;
+    margin-top: var(--space-xs);
+    min-height: 1.2rem;
+}
+
+/* Buttons Controls Layout */
+.btn {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.btn-primary { background-color: var(--color-primary); color: white; }
+.btn-primary:hover { background-color: var(--color-primary-dark); }
+.btn-secondary { background-color: var(--color-border); color: var(--color-primary-dark); }
+.btn-secondary:hover { background-color: #b4c3d6; }
+
+.form-actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+}
+
+/* Interactive Table Wrappers */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+th, td {
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+th {
+    background-color: var(--color-surface-alt);
+    font-weight: 600;
+}
+
+/* Highlights, Footer, Controls */
+mark {
+    background-color: #fef08a;
+    color: #000;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.records-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.search-box input {
+    width: 100%;
+    padding: var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+    font-size: 0.85rem;
+}
+
+.sort-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.sort-btn {
+    padding: var(--space-xs) var(--space-sm);
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.settings-group {
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-surface-alt);
+}
+
+.settings-group h3 {
+    font-size: 1rem;
+    margin-bottom: var(--space-xs);
+}
+
+.settings-help {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+}
+
+.settings-inline, .currency-row, .file-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+}
+
+.settings-inline input, .currency-row input {
+    padding: 6px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.contact-links {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.contact-links a {
+    color: var(--color-primary-light);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+footer {
+    text-align: center;
+    padding: var(--space-lg) var(--space-md);
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+}
+
+/* 🖥️ Responsive Breakpoint Improvements (Tablet to Desktop Viewports) */
+@media (min-width: 768px) {
+    .app-layout {
+        display: grid;
+        grid-template-columns: var(--sidebar-width) 1fr;
+        grid-template-rows: var(--topbar-height) 1fr;
+    }
+
+    #topbar {
+        grid-column: 1 / -1;
+    }
+
+    /* Transform Bottom Bar into a Permanent Left Sidebar */
+    #app-navigation {
+        position: sticky;
+        top: var(--topbar-height);
+        left: 0;
+        height: calc(100vh - var(--topbar-height));
+        width: var(--sidebar-width);
+        border-top: none;
+        border-right: 1px solid var(--color-border);
+        box-shadow: none;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        padding: var(--space-md) var(--space-sm);
+        gap: var(--space-xs);
+    }
+
+    .nav-menu li {
+        flex: none;
+    }
+
+    .nav-link {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: var(--space-sm) var(--space-md);
+        border-radius: var(--radius-sm);
+        font-size: 0.95rem;
+        gap: var(--space-md);
+        height: 44px;
+    }
+
+    .nav-link:hover {
+        background-color: var(--color-surface-alt);
+    }
+
+    #main-wrapper {
+        margin-bottom: 0;
+        grid-column: 2 / 3;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .records-controls {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .search-box input {
+        width: 300px;
+    }
+}
