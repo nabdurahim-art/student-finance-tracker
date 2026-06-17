@@ -158,6 +158,7 @@ Application state automatically serializes into an object structured under the `
 ---
 
 ## 🎥 Demonstration Video Scope
+https://www.loom.com/share/9a9a3a1b19ec44c3afba870c8133c88a
 
 The provided walkthrough video documents end-to-end interface features across standard interaction environments:
 
