@@ -1,6 +1,6 @@
 # 📊 Student Finance Tracker
 
-### 🌟 Technical Reference & Implementation Documentation
+###  Technical Reference & Implementation Documentation
 **Developer:** Nshimiyimana Abdurahim  
 **Track:** Frontend Web Development (ALU)  
 **Version:** 1.1  
@@ -9,7 +9,7 @@
 
 ---
 
-## 🔬 Architectural Overview
+##  Architectural Overview
 
 An accessible, framework-free single-page application (SPA) engineered with semantic HTML5, mobile-first CSS3, and a modular ECMAScript (ES6+) architecture.
 
@@ -18,7 +18,7 @@ An accessible, framework-free single-page application (SPA) engineered with sema
 
 ---
 
-## 📂 System Directory Architecture
+## System Directory Architecture
 
 | Resource Pathway | Architectural Layer | Operational Context & Dependencies |
 | :--- | :--- | :--- |
@@ -34,9 +34,9 @@ An accessible, framework-free single-page application (SPA) engineered with sema
 
 ---
 
-## 🚀 Setup & Local Execution Guide
+##  Setup & Local Execution Guide
 
-> ⚠️ **CORS Requirement:** Because this platform utilizes native ECMAScript Modules (`type="module"`), modern web browsers block local file system execution via the `file:///` protocol. The application **must** be served within a localized web server context.
+>  **CORS Requirement:** Because this platform utilizes native ECMAScript Modules (`type="module"`), modern web browsers block local file system execution via the `file:///` protocol. The application **must** be served within a localized web server context.
 
 ### 1. Clone the Repository
 Execute the following commands in your local web terminal:
@@ -59,7 +59,7 @@ cd student-finance-tracker
 
 ---
 
-## 🛡️ Regular Expression (Regex) Validation Catalog
+##  Regular Expression (Regex) Validation Catalog
 
 All patterns are declared as immutable, deep-frozen objects within `scripts/validators.js` under the `validators.PATTERNS` namespace.
 
@@ -73,7 +73,7 @@ All patterns are declared as immutable, deep-frozen objects within `scripts/vali
 
 ---
 
-## ⌨️ Accessibility Keyboard Interface Map
+##  Accessibility Keyboard Interface Map
 
 | Operational Key Control | Target Interactive Component | Resulting Interface Action |
 | --- | --- | --- |
@@ -92,7 +92,7 @@ All patterns are declared as immutable, deep-frozen objects within `scripts/vali
 
 ## ♿ Universal Design & Accessibility Specifications
 
-### 🏗️ Semantic Layout Landmarks
+###  Semantic Layout Landmarks
 
 | Landmark | Element | Purpose |
 | --- | --- | --- |
@@ -101,9 +101,9 @@ All patterns are declared as immutable, deep-frozen objects within `scripts/vali
 | `main` | `<main id="main-content">` | All content sections |
 | `contentinfo` | `<footer>` | Copyright information |
 
-> 💡 Every `<section>` utilizes `aria-labelledby` pointing to its respective `<h2>` so screen readers announce section names when users navigate by landmarks.
+>  Every `<section>` utilizes `aria-labelledby` pointing to its respective `<h2>` so screen readers announce section names when users navigate by landmarks.
 
-### 📢 ARIA Live Regions
+###  ARIA Live Regions
 
 | Element | `aria-live` value | When it announces |
 | --- | --- | --- |
@@ -112,9 +112,9 @@ All patterns are declared as immutable, deep-frozen objects within `scripts/vali
 | `#import-feedback` | `polite` | After data import succeeds or fails |
 | `.error-message` divs | `polite` with `role="alert"` | As the user types, on every field validation failure |
 
-> 🛠️ The budget container's `aria-live` value is dynamically switched to `assertive` via JavaScript when the cap is broken, forcing screen readers to interrupt immediately rather than waiting for an idle state.
+>  The budget container's `aria-live` value is dynamically switched to `assertive` via JavaScript when the cap is broken, forcing screen readers to interrupt immediately rather than waiting for an idle state.
 
-### 🎨 Color Contrast Compliance Matrix (WCAG AA)
+###  Color Contrast Compliance Matrix (WCAG AA)
 
 The interface colors conform strictly to the WCAG AA contrast threshold of 4.5:1 for standard body text and 3:1 for user interface interactive controls.
 
@@ -128,7 +128,7 @@ The interface colors conform strictly to the WCAG AA contrast threshold of 4.5:1
 
 ---
 
-## 💾 LocalStorage Serialization Format
+##  LocalStorage Serialization Format
 
 Application state automatically serializes into an object structured under the `sft:data` storage string. Corrupted or structurally compromised signatures are rejected safely on launch to preserve data streams.
 
@@ -157,7 +157,7 @@ Application state automatically serializes into an object structured under the `
 
 ---
 
-## 🎥 Demonstration Video Scope
+##  Demonstration Video Scope
 https://www.loom.com/share/9a9a3a1b19ec44c3afba870c8133c88a
 
 The provided walkthrough video documents end-to-end interface features across standard interaction environments:
