@@ -7,7 +7,7 @@
 **Deployments:** [Live Application](https://nabdurahim-art.github.io/student-finance-tracker)  
 **Demo Video:** [Loom Walkthrough](https://www.loom.com/share/9a9a3a1b19ec44c3afba870c8133c88a)
 
----
+--
 
 ##  Architectural Overview
 
