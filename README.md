@@ -1,3 +1,9 @@
+Here is the complete, formatted `cat << 'EOF'` block incorporating your updated specifications, including the unified **Semantic Layout Landmarks** and **ARIA Live Regions** tables matching your engineering constraints.
+
+Copy the entire block below, paste it directly into your web terminal, and hit Enter:
+
+```bash
+cat << 'EOF' > README.md
 # 📊 Student Finance Tracker
 
 ### 🌟 Technical Reference & Implementation Documentation
@@ -43,7 +49,97 @@ Execute the following commands in your local web terminal:
 ```bash
 git clone [https://github.com/nabdurahim-art/student-finance-tracker](https://github.com/nabdurahim-art/student-finance-tracker)
 cd student-finance-tracker
-2. Launch Local ServerOpen the root project folder in Visual Studio Code.Click the Go Live button in the status bar to mount the application via Live Server at http://127.0.0.1:5500.3. Inject Experimental Seed DataNavigate to the Settings view via the sidebar navigation menu.Under the Import / Export Data utility section, click choose file and select seed.json.The data verification engine will instantly populate 15 historical records (ranging from Feb 1 – 19, 2025) totaling $279.38, safely keeping the metrics below the default $500.00 budget cap.🛡️ Regular Expression (Regex) Validation CatalogAll patterns are declared as immutable, deep-frozen objects within scripts/validators.js under the validators.PATTERNS namespace.Verification ObjectiveRegular Expression ArchitectureCompliant CaseNon-Compliant Case1. Text Description/^\S(?:(?!\s{2})[\s\S])*\S$|^\S$/"Lunch at canteen"" Lunch", "Lunch  at" (consecutive spaces)2. Numeric Costs/^(0|[1-9]\d*)(\.\d{1,2})?$/"12.50", "100""-5", "1e7" (scientific notation), "12.999"3. Date ISO Compliance/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/"2025-09-29""29-09-2025", "2025-13-01", Tomorrow's date4. Categories/^[A-Za-z]+(?:[ -][A-Za-z]+)*$/"Entertainment""Food & Drink", "Food123", " Food"5. Lexical Redundancy/\b(\w{4,})\b(?=.*\b\1\b)/i"Lunch at canteen""Coffee Coffee shop", "Transport transport pass"⌨️ Accessibility Keyboard Interface MapOperational Key ControlTarget Interactive ComponentResulting Interface ActionTabUniversal Document FocusSteps focus forward sequentially through focusable interactive nodes.Shift + TabUniversal Document FocusSteps focus backward sequentially through focusable interactive nodes.Tab (First Press)Hidden Layout ShellReveals the off-screen skip link structural anchor text instantly.Enter (On Skip Link)Skip-to-Content AnchorBypasses sidebar menus entirely, jumping directly to main dashboard data views.Enter / SpacebarFocused Buttons & LinksActivates selected buttons, changes sidebar navigation, or triggers form clears.Enter (On Table Header)Column Header ElementsSorts active table rows by that specific column index (reverses layout direction on repeat).Enter (On Action Trackers)Row Edit / Delete ButtonsEdit: Pulls row properties back into the input forms.Delete: Removes record safely.Arrow KeysForm Category DropdownCycles selection selection parameters through the standard category registry seamlessly.♿ Universal Design & Accessibility Specifications🏗️ Semantic Layout LandmarksLandmarkElementPurposebanner<header id="topbar">App title and navigation togglenavigation<aside id="sidebar"> with <nav> insideSection linksmain<main id="main-content">All content sectionscontentinfo<footer>Copyright information💡 Every <section> utilizes aria-labelledby pointing to its respective <h2> so screen readers announce section names when users navigate by landmarks.📢 ARIA Live RegionsElementaria-live valueWhen it announces#budget-messagepolite (within budget) / assertive (over budget)Every time records or budget cap change#status-messagepoliteAfter add, edit, delete, import, export, or saving settings#import-feedbackpoliteAfter data import succeeds or fails.error-message divspolite with role="alert"As the user types, on every field validation failure🛠️ The budget container's aria-live value is dynamically switched to assertive via JavaScript when the cap is broken, forcing screen readers to interrupt immediately rather than waiting for an idle state.🎨 Color Contrast Compliance Matrix (WCAG AA)The interface colors conform strictly to the WCAG AA contrast threshold of 4.5:1 for standard body text and 3:1 for user interface interactive controls.Element AreaForeground ColorBackground ColorContrast RatioCompliance StatusPrimary Controls (Add Transaction, Save Cap)#FFFFFF#111E3014.2:1✅ Exceeds AA (> 4.5:1)Main Readable Text (Labels, headings, text outputs)#1A1A1A#FFFFFF16.4:1✅ Exceeds AA (> 4.5:1)Secondary Buttons (Clear Form, Reset)#111E30#D2D7DF10.5:1✅ Exceeds AA (> 4.5:1)Structural Borders (Input fields, borders)#555555#FFFFFF6.2:1✅ Passes AA (> 4.5:1)System Alerts (Inline error text validation)#D32F2F#FFFFFF4.7:1✅ Passes AA (> 4.5:1)💾 LocalStorage Serialization FormatApplication state automatically serializes into an object structured under the sft:data storage string. Corrupted or structurally compromised signatures are rejected safely on launch to preserve data streams.JSON{
+
+```
+
+### 2. Launch Local Server
+
+* Open the root project folder in **Visual Studio Code**.
+* Click the **Go Live** button in the status bar to mount the application via Live Server at `http://127.0.0.1:5500`.
+
+### 3. Inject Experimental Seed Data
+
+1. Navigate to the **Settings** view via the sidebar navigation menu.
+2. Under the **Import / Export Data** utility section, click choose file and select `seed.json`.
+3. The data verification engine will instantly populate **15 historical records** (ranging from Feb 1 – 19, 2025) totaling **$279.38**, safely keeping the metrics below the default **$500.00 budget cap**.
+
+---
+
+## 🛡️ Regular Expression (Regex) Validation Catalog
+
+All patterns are declared as immutable, deep-frozen objects within `scripts/validators.js` under the `validators.PATTERNS` namespace.
+
+| Verification Objective | Regular Expression Architecture | Compliant Case | Non-Compliant Case |
+| --- | --- | --- | --- |
+| **1. Text Description** | `/^\S(?:(?!\s{2})[\s\S])*\S$|^\S$/` | `"Lunch at canteen"` | `" Lunch"`, `"Lunch  at"` *(consecutive spaces)* |
+| **2. Numeric Costs** | `/^(0|[1-9]\d*)(\.\d{1,2})?$/` | `"12.50"`, `"100"` | `"-5"`, `"1e7"` *(scientific notation)*, `"12.999"` |
+| **3. Date ISO Compliance** | `/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/` | `"2025-09-29"` | `"29-09-2025"`, `"2025-13-01"`, Tomorrow's date |
+| **4. Categories** | `/^[A-Za-z]+(?:[ -][A-Za-z]+)*$/` | `"Entertainment"` | `"Food & Drink"`, `"Food123"`, `" Food"` |
+| **5. Lexical Redundancy** | `/\b(\w{4,})\b(?=.*\b\1\b)/i` | `"Lunch at canteen"` | `"Coffee Coffee shop"`, `"Transport transport pass"` |
+
+---
+
+## ⌨️ Accessibility Keyboard Interface Map
+
+| Operational Key Control | Target Interactive Component | Resulting Interface Action |
+| --- | --- | --- |
+| Tab | Universal Document Focus | Steps focus forward sequentially through focusable interactive nodes. |
+| Shift + Tab | Universal Document Focus | Steps focus backward sequentially through focusable interactive nodes. |
+| Tab *(First Press)* | Hidden Layout Shell | Reveals the off-screen skip link structural anchor text instantly. |
+| Enter *(On Skip Link)* | Skip-to-Content Anchor | Bypasses sidebar menus entirely, jumping directly to main dashboard data views. |
+| Enter / Spacebar | Focused Buttons & Links | Activates selected buttons, changes sidebar navigation, or triggers form clears. |
+| Enter *(On Table Header)* | Column Header Elements | Sorts active table rows by that specific column index (reverses layout direction on repeat). |
+| Enter *(On Action Trackers)* | Row Edit / Delete Buttons | **Edit:** Pulls row properties back into the input forms. <br>
+
+<br>**Delete:** Removes record safely. |
+| Arrow Keys | Form Category Dropdown | Cycles selection selection parameters through the standard category registry seamlessly. |
+
+---
+
+## ♿ Universal Design & Accessibility Specifications
+
+### 🏗️ Semantic Layout Landmarks
+
+| Landmark | Element | Purpose |
+| --- | --- | --- |
+| `banner` | `<header id="topbar">` | App title and navigation toggle |
+| `navigation` | `<aside id="sidebar">` with `<nav>` inside | Section links |
+| `main` | `<main id="main-content">` | All content sections |
+| `contentinfo` | `<footer>` | Copyright information |
+
+> 💡 Every `<section>` utilizes `aria-labelledby` pointing to its respective `<h2>` so screen readers announce section names when users navigate by landmarks.
+
+### 📢 ARIA Live Regions
+
+| Element | `aria-live` value | When it announces |
+| --- | --- | --- |
+| `#budget-message` | `polite` (within budget) / `assertive` (over budget) | Every time records or budget cap change |
+| `#status-message` | `polite` | After add, edit, delete, import, export, or saving settings |
+| `#import-feedback` | `polite` | After data import succeeds or fails |
+| `.error-message` divs | `polite` with `role="alert"` | As the user types, on every field validation failure |
+
+> 🛠️ The budget container's `aria-live` value is dynamically switched to `assertive` via JavaScript when the cap is broken, forcing screen readers to interrupt immediately rather than waiting for an idle state.
+
+### 🎨 Color Contrast Compliance Matrix (WCAG AA)
+
+The interface colors conform strictly to the WCAG AA contrast threshold of 4.5:1 for standard body text and 3:1 for user interface interactive controls.
+
+| Element Area | Foreground Color | Background Color | Contrast Ratio | Compliance Status |
+| --- | --- | --- | --- | --- |
+| **Primary Controls** *(Add Transaction, Save Cap)* | `#FFFFFF` | `#111E30` | **14.2:1** | ✅ Exceeds AA (`> 4.5:1`) |
+| **Main Readable Text** *(Labels, headings, text outputs)* | `#1A1A1A` | `#FFFFFF` | **16.4:1** | ✅ Exceeds AA (`> 4.5:1`) |
+| **Secondary Buttons** *(Clear Form, Reset)* | `#111E30` | `#D2D7DF` | **10.5:1** | ✅ Exceeds AA (`> 4.5:1`) |
+| **Structural Borders** *(Input fields, borders)* | `#555555` | `#FFFFFF` | **6.2:1** | ✅ Passes AA (`> 4.5:1`) |
+| **System Alerts** *(Inline error text validation)* | `#D32F2F` | `#FFFFFF` | **4.7:1** | ✅ Passes AA (`> 4.5:1`) |
+
+---
+
+## 💾 LocalStorage Serialization Format
+
+Application state automatically serializes into an object structured under the `sft:data` storage string. Corrupted or structurally compromised signatures are rejected safely on launch to preserve data streams.
+
+```json
+{
   "records": [
     {
       "id": "rec_1718364000000",
@@ -62,4 +158,21 @@ cd student-finance-tracker
   "version": "1.1",
   "lastUpdated": "2025-02-19T12:00:00.000Z"
 }
-🎥 Demonstration Video ScopeThe provided walkthrough video documents end-to-end interface features across standard interaction environments:Keyboard-Only Runs: Navigating focus chains exclusively through the keyboard, showing active bypass routes and item selections.Error Prevention Chains: Visual verification of validation triggers when entering illegal dates or input configurations.Telemetry Testing: Simulating a budget-cap breach to demonstrate real-time aria-live="assertive" audio tracking execution.Responsive Fluid Layouts: Layout adaptability testing demonstrating seamless structural transitions across mobile, tablet, and desktop viewports.EOF
+
+```
+
+---
+
+## 🎥 Demonstration Video Scope
+
+The provided walkthrough video documents end-to-end interface features across standard interaction environments:
+
+* **Keyboard-Only Runs:** Navigating focus chains exclusively through the keyboard, showing active bypass routes and item selections.
+* **Error Prevention Chains:** Visual verification of validation triggers when entering illegal dates or input configurations.
+* **Telemetry Testing:** Simulating a budget-cap breach to demonstrate real-time `aria-live="assertive"` audio tracking execution.
+* **Responsive Fluid Layouts:** Layout adaptability testing demonstrating seamless structural transitions across mobile, tablet, and desktop viewports.
+EOF
+
+```
+
+```
