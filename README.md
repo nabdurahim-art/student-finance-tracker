@@ -8,6 +8,8 @@
 **Demo Video:** [Loom Walkthrough](https://www.loom.com/share/9a9a3a1b19ec44c3afba870c8133c88a)
 
 --
+## WIreframe
+![image alt](https://github.com/nabdurahim-art/student-finance-tracker/blob/bb9e0134d8f66071fa032a57427ce3c5c08edd1c/CamScanner%2013-06-2026%2012.09.jpg)
 
 ##  Architectural Overview
 
